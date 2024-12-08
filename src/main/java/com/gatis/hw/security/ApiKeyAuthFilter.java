@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Collections;
 
 @Component
 public class ApiKeyAuthFilter extends OncePerRequestFilter {
@@ -21,10 +21,12 @@ public class ApiKeyAuthFilter extends OncePerRequestFilter {
     private String secret;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
         String providedSecret = request.getHeader(header);
         if (secret.equals(providedSecret))
-            SecurityContextHolder.getContext().setAuthentication(new PreAuthenticatedAuthenticationToken(providedSecret, null, new ArrayList<>()));
+            SecurityContextHolder.getContext().setAuthentication(
+                    new PreAuthenticatedAuthenticationToken(providedSecret, null, Collections.emptyList()));
         filterChain.doFilter(request, response);
     }
 
