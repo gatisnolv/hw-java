@@ -29,8 +29,8 @@ public class Station {
 //    {"id":"ELEVATION_PRESSURE","type":"text"}]
 
     @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Long tableId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long tableId;
 
     @JsonProperty("_id")
     @Column(name = "_id")
