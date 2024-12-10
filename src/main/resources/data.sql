@@ -1,0 +1,1 @@
+CREATE TABLE STATION AS SELECT * FROM CSVREAD('stations-fallback.csv');
