@@ -5,11 +5,15 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 
 @Service
 public class StationsInfoDownloadService {
@@ -36,6 +40,10 @@ public class StationsInfoDownloadService {
 
     public static void main(String[] args) throws Exception {
         get("https://data.gov.lv/dati/lv/datastore/dump/c32c7afd-0d05-44fd-8b24-1de85b4bf11d?bom=True");
+//        String query = "SELECT * from \"c32c7afd-0d05-44fd-8b24-1de85b4bf11d\" WHERE \"STATION_ID\" = 'RIVE99PA'";
+//        String uri = "https://data.gov.lv/dati/lv/api/3/action/datastore_search_sql?sql=";
+//        String encoded = URLEncoder.encode(query, Charset.defaultCharset());
+//        System.out.println(uri + encoded);
     }
 
 }
