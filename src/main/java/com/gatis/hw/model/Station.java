@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Data
@@ -28,8 +29,8 @@ public class Station {
 //    {"id":"ELEVATION_PRESSURE","type":"text"}]
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long primaryKey;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID primaryKey;
 
     @Column(name = "_id")
     private Integer id;

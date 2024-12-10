@@ -19,6 +19,7 @@ public class StationService {
     }
 
     public StationDTO getOneByStationId(String stationId) {
+//        repository.loadDataFromFile(null);
         return repository.findStationByStationIdIgnoreCase(stationId);
     }
 

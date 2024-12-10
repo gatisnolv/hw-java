@@ -16,7 +16,7 @@ public interface StationRepository extends JpaRepository<Station, Long> {
 
     @Modifying
     @Transactional
-    @Query(nativeQuery = true, value = "INSERT INTO STATION (_id, STATION_ID, NAME, WMO_ID, BEGIN_DATE, END_DATE, LATITUDE, LONGITUDE, GAUSS1, GAUSS2, GEOGR1, GEOGR2, ELEVATION, ELEVATION_PRESSURE) SELECT * FROM CSVREAD('stations-fallback.csv');")
+    @Query(nativeQuery = true, value = "INSERT INTO STATION SELECT *, RANDOM_UUID() AS PRIMARY_KEY FROM CSVREAD('stations-fallback.csv');")
     void loadDataFromFile(String filename);
 
 
