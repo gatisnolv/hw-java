@@ -1,5 +1,6 @@
 package com.gatis.hw.repository;
 
+import com.gatis.hw.dto.StationDTO;
 import com.gatis.hw.model.Station;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -9,8 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 public interface StationRepository extends JpaRepository<Station, Long> {
-    Station findStationByStationIdIgnoreCase(String station_id);
+    StationDTO findStationByStationIdIgnoreCase(String stationId);
 
+    List<StationDTO> findBy();
 
     @Modifying
     @Transactional
