@@ -1,12 +1,15 @@
 package com.gatis.hw.controller;
 
-import com.gatis.hw.service.StationsDataDownloadService;
+import com.gatis.hw.dto.StationDTO;
+import com.gatis.hw.service.StationService;
+import com.gatis.hw.exception.StationNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.net.ConnectException;
 import java.net.http.HttpTimeoutException;
 import java.util.concurrent.CancellationException;
@@ -17,26 +20,31 @@ import java.util.concurrent.CancellationException;
 public class StationController {
 
     @Autowired
-    StationsDataDownloadService service;
+    StationService service;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public String getAll() {
-        return "all stations";
+    public List<StationDTO> getAll() {
+        return service.getAll();
     }
 
-    @GetMapping(path = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String getOne(@PathVariable String id) {
-        return "one station";
+    @GetMapping(path = "{stationId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public StationDTO getOne(@PathVariable String stationId) {
+        return service.getOneByStationId(stationId);
     }
 
-    // TODO does the reason string show up in openapi?
-    @ResponseStatus(value = HttpStatus.SERVICE_UNAVAILABLE, reason = "Network unreachable")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    @ExceptionHandler({StationNotFoundException.class})
+    public void handleStationNotFoundException(StationNotFoundException e) {
+        log.info("No station with STATION_ID {} found", e.getStationId());
+    }
+
+    @ResponseStatus(value = HttpStatus.SERVICE_UNAVAILABLE)
     @ExceptionHandler({ConnectException.class})
     public void handleConnectException(Exception e) {
         log.error("Network unreachable");
     }
 
-    @ResponseStatus(value = HttpStatus.SERVICE_UNAVAILABLE, reason = "Request timed out")
+    @ResponseStatus(value = HttpStatus.SERVICE_UNAVAILABLE)
     @ExceptionHandler({HttpTimeoutException.class, CancellationException.class})
     public void handleHttpTimeoutException(Exception e) {
         log.error("Request timed out");
