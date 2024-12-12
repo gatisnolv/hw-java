@@ -19,5 +19,5 @@ public class StationController {
     public String getOne(@PathVariable String id) {
         return "one station";
     }
-}
 
+}
