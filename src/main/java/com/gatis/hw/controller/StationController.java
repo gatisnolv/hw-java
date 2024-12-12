@@ -1,6 +1,7 @@
 package com.gatis.hw.controller;
 
-import com.gatis.hw.service.StationsDataDownloadService;
+import com.gatis.hw.dto.StationDTO;
+import com.gatis.hw.service.StationsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.ConnectException;
 import java.net.http.HttpTimeoutException;
+import java.util.List;
 import java.util.concurrent.CancellationException;
 
 @RestController
@@ -17,16 +19,16 @@ import java.util.concurrent.CancellationException;
 public class StationController {
 
     @Autowired
-    StationsDataDownloadService service;
+    private StationsService service;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public String getAll() {
-        return "all stations";
+    public List<StationDTO> getAll() {
+        return service.getAll();
     }
 
-    @GetMapping(path = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String getOne(@PathVariable String id) {
-        return "one station";
+    @GetMapping(path = "{stationId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public StationDTO getOne(@PathVariable String stationId) {
+        return service.getOneByStationId(stationId);
     }
 
     // TODO does the reason string show up in openapi?
