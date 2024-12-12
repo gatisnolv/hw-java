@@ -32,6 +32,11 @@ public class StationController {
         return service.getOneByStationId(stationId);
     }
 
+    @PostMapping
+    public boolean updateData() {
+        return service.updateData();
+    }
+
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @ExceptionHandler({StationNotFoundException.class})
     public void handleStationNotFoundException(StationNotFoundException e) {

@@ -36,7 +36,16 @@ public class StationService {
         return repository.findOptionalByStationIdIgnoreCase(stationId).orElseThrow(() -> new StationNotFoundException(stationId));
     }
 
-    public boolean downloadStationsData() {
+    public boolean updateData() {
+        boolean downloadSuccessful = downloadStationsData();
+        if (downloadSuccessful) {
+            repository.deleteAll();
+            repository.loadDataFromFile();
+        }
+        return downloadSuccessful;
+    }
+
+    boolean downloadStationsData() {
         String uri = "https://data.gov.lv/dati/lv/datastore/dump/c32c7afd-0d05-44fd-8b24-1de85b4bf11d?bom=True";
         return Boolean.TRUE.equals(restClient.get().uri(uri).exchange((request, response) -> {
             if (HttpStatus.OK == response.getStatusCode()) {
