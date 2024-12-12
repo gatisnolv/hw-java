@@ -10,6 +10,9 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.net.ConnectException;
+import java.net.http.HttpTimeoutException;
+import java.util.concurrent.CancellationException;
 
 @RestController
 @RequestMapping("station")
@@ -33,6 +36,18 @@ public class StationController {
     @ExceptionHandler({StationNotFoundException.class})
     public void handleStationNotFoundException(StationNotFoundException e) {
         log.info("No station with STATION_ID {} found", e.getStationId());
+    }
+
+    @ResponseStatus(value = HttpStatus.SERVICE_UNAVAILABLE, reason = "Network unreachable")
+    @ExceptionHandler({ConnectException.class})
+    public void handleConnectException(Exception e) {
+        log.error("Network unreachable");
+    }
+
+    @ResponseStatus(value = HttpStatus.SERVICE_UNAVAILABLE, reason = "Request timed out")
+    @ExceptionHandler({HttpTimeoutException.class, CancellationException.class})
+    public void handleHttpTimeoutException(Exception e) {
+        log.error("Request timed out");
     }
 
 }
