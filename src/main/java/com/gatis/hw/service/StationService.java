@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-//@RequiredArgsConstructor
 public class StationService {
 
     @Autowired
@@ -19,7 +18,6 @@ public class StationService {
     }
 
     public StationDTO getOneByStationId(String stationId) {
-//        repository.loadDataFromFile(null);
         return repository.findStationByStationIdIgnoreCase(stationId);
     }
 

@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 public interface StationRepository extends JpaRepository<Station, Long> {
+
     StationDTO findStationByStationIdIgnoreCase(String stationId);
 
     List<StationDTO> findBy();
@@ -19,7 +20,4 @@ public interface StationRepository extends JpaRepository<Station, Long> {
     @Query(nativeQuery = true, value = "INSERT INTO STATION (PRIMARY_KEY, _id, STATION_ID, NAME, WMO_ID, BEGIN_DATE, END_DATE, LATITUDE, LONGITUDE, GAUSS1, GAUSS2, GEOGR1, GEOGR2, ELEVATION, ELEVATION_PRESSURE) SELECT RANDOM_UUID(), * FROM CSVREAD('stations-fallback.csv');")
     void loadDataFromFile(String filename);
 
-
-    @Query(nativeQuery = true, value = "SELECT * FROM CSVREAD('stations-fallback.csv');")
-    List<Station> read();
 }

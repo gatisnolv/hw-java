@@ -1,7 +1,6 @@
 package com.gatis.hw.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,23 +9,8 @@ import java.util.UUID;
 
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class Station {
-//    {"id":"_id","type":"int"}
-//    {"id":"STATION_ID","type":"text"}
-//    {"id":"NAME","type":"text"}
-//    {"id":"WMO_ID","type":"text"}
-//    {"id":"BEGIN_DATE","type":"timestamp"}
-//    {"id":"END_DATE","type":"timestamp"}
-//    {"id":"LATITUDE","type":"numeric"}
-//    {"id":"LONGITUDE","type":"numeric"}
-//    {"id":"GAUSS1","type":"text"}
-//    {"id":"GAUSS2","type":"text"}
-//    {"id":"GEOGR1","type":"numeric"}
-//    {"id":"GEOGR2","type":"numeric"}
-//    {"id":"ELEVATION","type":"numeric"}
-//    {"id":"ELEVATION_PRESSURE","type":"text"}]
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -74,4 +58,5 @@ public class Station {
 
     @Column(name = "ELEVATION_PRESSURE")
     private String elevationPressure;
+
 }

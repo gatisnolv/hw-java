@@ -27,5 +27,5 @@ public class StationController {
     public StationDTO getOne(@PathVariable String stationId) {
         return service.getOneByStationId(stationId);
     }
-}
 
+}
