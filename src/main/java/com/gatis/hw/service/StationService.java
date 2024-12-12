@@ -1,6 +1,7 @@
 package com.gatis.hw.service;
 
 import com.gatis.hw.dto.StationDTO;
+import com.gatis.hw.exception.StationNotFoundException;
 import com.gatis.hw.repository.StationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ public class StationService {
     }
 
     public StationDTO getOneByStationId(String stationId) {
-        return repository.findStationByStationIdIgnoreCase(stationId);
+        return repository.findOptionalByStationIdIgnoreCase(stationId).orElseThrow(() -> new StationNotFoundException(stationId));
     }
 
 }
