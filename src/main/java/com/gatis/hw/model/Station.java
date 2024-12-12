@@ -30,6 +30,7 @@ public class Station {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "PRIMARY_KEY")
     private UUID primaryKey;
 
     @Column(name = "_id")
