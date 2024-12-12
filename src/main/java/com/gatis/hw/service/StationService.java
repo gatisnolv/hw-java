@@ -36,13 +36,12 @@ public class StationService {
         return repository.findOptionalByStationIdIgnoreCase(stationId).orElseThrow(() -> new StationNotFoundException(stationId));
     }
 
-    public boolean updateData() {
+    public void updateData() {
         boolean downloadSuccessful = downloadStationsData();
         if (downloadSuccessful) {
             repository.deleteAll();
             repository.loadDataFromFile();
         }
-        return downloadSuccessful;
     }
 
     boolean downloadStationsData() {
