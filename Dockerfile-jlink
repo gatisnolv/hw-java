@@ -5,10 +5,11 @@ WORKDIR /app
 COPY pom.xml pom.xml
 RUN mvn verify --fail-never
 
-# Copy source code and build project
+# Copy source code and build the project
 COPY src src
 RUN mvn clean package
 
+# Produce a custom minimal JRE with only the required modules
 RUN jar xf target/hw-0.0.1-SNAPSHOT.jar
 RUN jdeps --ignore-missing-deps -q  \
     --recursive  \
@@ -24,17 +25,14 @@ RUN jlink \
     --no-man-pages \
     --output /custom-jre
 
-# Slim Debian image - without a JRE packaged - to use with JLink
+# Slim Debian image - without a JRE packaged - to use with the JLink produced JRE
 FROM debian:bookworm-20241202-slim@sha256:1537a6a1cbc4b4fd401da800ee9480207e7dc1f23560c21259f681db56768f63
 ENV JAVA_HOME=/opt/java/openjdk
 ENV PATH ${JAVA_HOME}/bin:${PATH}
 COPY --from=build /custom-jre $JAVA_HOME
 
-# set the workdir to /app - then can use realtive path for app destination, also file download then happens here, as WORKDIR sets the working directory for the container run
 WORKDIR /app
 
 COPY --from=build /app/target/hw-0.0.1-SNAPSHOT.jar app.jar
 COPY stations-fallback.csv stations-fallback.csv
 CMD ["java", "-jar", "app.jar"]
-# docker build --no-cache -t hw .
-# docker run --rm -it -p 8080:8080 hw
