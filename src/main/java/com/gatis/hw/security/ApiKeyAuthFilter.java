@@ -15,8 +15,10 @@ import java.util.Collections;
 
 @Component
 public class ApiKeyAuthFilter extends OncePerRequestFilter {
+
     @Value("${auth.header.name}")
     private String header;
+
     @Value("${auth.secret}")
     private String secret;
 
@@ -26,7 +28,7 @@ public class ApiKeyAuthFilter extends OncePerRequestFilter {
         String providedSecret = request.getHeader(header);
         if (secret.equals(providedSecret))
             SecurityContextHolder.getContext().setAuthentication(
-                    new PreAuthenticatedAuthenticationToken(providedSecret, null, Collections.emptyList()));
+                    new PreAuthenticatedAuthenticationToken(secret, null, Collections.emptyList()));
         filterChain.doFilter(request, response);
     }
 
