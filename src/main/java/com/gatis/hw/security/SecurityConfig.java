@@ -26,10 +26,18 @@ public class SecurityConfig {
                 .sessionManagement(smc -> smc.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(registry -> registry
+//                                .requestMatchers(
+//                                        "/error/**",
+//                                        "/swagger-ui/**",
+////                                        "/api-docs/**"
+//                                        "/api-docs"
+//                                ).permitAll()
                         .requestMatchers(AntPathRequestMatcher.antMatcher("/swagger-ui/**")).permitAll()
-                        .requestMatchers(AntPathRequestMatcher.antMatcher("/v3/api-docs/**")).permitAll()
+                        .requestMatchers(AntPathRequestMatcher.antMatcher("/api-docs")).permitAll()
+                        .requestMatchers(AntPathRequestMatcher.antMatcher("/api-docs/**")).permitAll()
+//                        .requestMatchers(AntPathRequestMatcher.antMatcher("/api-docs.yaml")).permitAll()
                         .requestMatchers(AntPathRequestMatcher.antMatcher("/error/**")).permitAll()
-                        .anyRequest().authenticated()
+                                .anyRequest().authenticated()
                 )
                 .exceptionHandling(configurer -> configurer
                         .authenticationEntryPoint((request, response, authException) ->
